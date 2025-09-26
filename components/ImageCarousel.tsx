@@ -12,6 +12,11 @@ type ImageCarouselProps = {
 
 export const ImageCarousel = ({ images, autoplay = true }: ImageCarouselProps) => {
   const [active, setActive] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleNext = () => {
     setActive((prev) => (prev + 1) % images.length);
@@ -22,18 +27,14 @@ export const ImageCarousel = ({ images, autoplay = true }: ImageCarouselProps) =
   };
 
   useEffect(() => {
-    if (autoplay) {
+    if (autoplay && mounted) {
       const interval = setInterval(handleNext, 5000);
       return () => clearInterval(interval);
     }
-  }, [autoplay, handleNext]);
+  }, [autoplay, mounted]);
 
   const isActive = (index: number) => {
     return index === active;
-  };
-
-  const randomRotateY = () => {
-    return Math.floor(Math.random() * 21) - 10;
   };
 
   return (
@@ -43,21 +44,12 @@ export const ImageCarousel = ({ images, autoplay = true }: ImageCarouselProps) =
           {images.map((src, index) => (
             <motion.div
               key={src}
-              initial={{
-                opacity: 0,
-                scale: 0.9,
-                rotateY: randomRotateY(),
-              }}
+              initial={false}
               animate={{
-                opacity: isActive(index) ? 1 : 0.7,
-                scale: isActive(index) ? 1 : 0.9,
-                y: isActive(index) ? [0, -40, 0] : 0,
+                opacity: mounted ? (isActive(index) ? 1 : 0.7) : 1,
+                scale: mounted ? (isActive(index) ? 1 : 0.9) : 1,
+                y: mounted && isActive(index) ? [0, -40, 0] : 0,
                 zIndex: isActive(index) ? images.length : images.length - Math.abs(index - active),
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.9,
-                rotateY: randomRotateY(),
               }}
               transition={{
                 duration: 0.4,
@@ -72,6 +64,7 @@ export const ImageCarousel = ({ images, autoplay = true }: ImageCarouselProps) =
                 height={600}
                 draggable={false}
                 className="carousel-image"
+                priority={index === 0}
               />
             </motion.div>
           ))}
@@ -87,4 +80,4 @@ export const ImageCarousel = ({ images, autoplay = true }: ImageCarouselProps) =
       </div>
     </div>
   );
-}; 
+};
