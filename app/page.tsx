@@ -7,10 +7,10 @@ import { ServiceCard } from '../components/ServiceCard';
 
 export default function HomePage() {
   const trainingImages = [
-    '/PHOTO-2024-12-19-12-01-01.jpg',
+    '/IMG_3590.JPG',
     '/PHOTO-2025-01-08-16-40-45.jpg',
-    '/PHOTO-2025-03-28-15-27-39.jpg',
-    '/PHOTO-2024-12-19-11-55-54.jpg',
+    '/WhatsApp Image 2025-09-26 at 14.05.27.jpeg',
+    '/WhatsApp Image 2025-09-26 at 14.14.56.jpeg',
     '/PHOTO-2025-05-08-14-43-13.jpg'
   ];
 
