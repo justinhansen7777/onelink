@@ -7,11 +7,11 @@ import { ServiceCard } from '../components/ServiceCard';
 
 export default function HomePage() {
   const trainingImages = [
-      '/IMG_3590.JPG',
-      '/PHOTO-2025-01-08-16-40-45.jpg',
-      '/WhatsApp-Image-2025-09-26-14-05-27.jpeg',
-      '/WhatsApp-Image-2025-09-26-14-14-56.jpeg',
-      '/PHOTO-2025-05-08-14-43-13.jpg'
+      '/training-image-1.jpg',
+      '/training-image-2.jpg',
+      '/training-image-3.jpg',
+      '/training-image-4.jpg',
+      '/training-image-5.jpg'
     ];
 
   return (
@@ -115,7 +115,7 @@ export default function HomePage() {
               </div>
                <div className="work-item__image-box">
                   <Image 
-                    src="/Scherm­afbeelding 2025-09-21 om 17.19.11.png"
+                    src="/schermafbeelding-2025-09-21-17-19-11.png"
                     alt="Onesynq dashboard preview 2"
                     width={400}
                     height={250}
@@ -148,7 +148,7 @@ export default function HomePage() {
             <div className="work-item">
               <div className="work-item__image-box">
                   <Image 
-                    src="/Scherm­afbeelding 2025-07-08 om 10.17.57.png"
+                    src="/schermafbeelding-2025-07-08-10-17-57.png"
                     alt="Onechat dashboard preview"
                     width={400}
                     height={250}
@@ -157,7 +157,7 @@ export default function HomePage() {
               </div>
               <div className="work-item__image-box">
                   <Image 
-                    src="/Scherm­afbeelding 2025-07-08 om 10.15.20.png"
+                    src="/schermafbeelding-2025-07-08-10-15-20.png"
                     alt="Onechat dashboard preview 2"
                     width={400}
                     height={250}
@@ -191,7 +191,7 @@ export default function HomePage() {
             <div className="work-item">
                <div className="work-item__image-box">
                   <Image 
-                    src="/Screenshot 2025-09-21 at 12.48.59.png"
+                    src="/screenshot-2025-09-21-12-48-59.png"
                     alt="Oneview dashboard preview"
                     width={400}
                     height={250}
@@ -200,7 +200,7 @@ export default function HomePage() {
               </div>
               <div className="work-item__image-box">
                   <Image 
-                    src="/Screenshot 2025-09-21 at 12.39.26.png"
+                    src="/screenshot-2025-09-21-12-39-26.png"
                     alt="Oneview dashboard preview 2"
                     width={400}
                     height={250}
