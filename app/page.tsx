@@ -14,6 +14,40 @@ export default function HomePage() {
     { x: 0, y: 0, opacity: 0 },
     { x: 0, y: 0, opacity: 0 }
   ]);
+  const trajectorySteps = [
+    {
+      phase: '0. AI Readiness Scan',
+      goal: 'Eerste inzicht in AI-gereedheid + relatie opbouwen',
+      output: 'AI Readiness Rapport (geautomatiseerd) + discovery call',
+      placeholder: 'Placeholder: we brengen huidige processen, data, rollen en ambitie in kaart zodat we direct een helder vertrekpunt hebben.'
+    },
+    {
+      phase: '1. Diagnose & Opportunity',
+      goal: 'Vaststellen waar AI aantoonbare waarde creeert',
+      output: 'AI Opportunity Blueprint: geprioriteerde use cases, business case per use case, readiness-gap analyse, implementatie-roadmap',
+      placeholder: 'Placeholder: we prioriteren kansen op impact en haalbaarheid en vertalen dit naar een concrete volgorde voor implementatie.'
+    },
+    {
+      phase: '2. Architect & Design',
+      goal: 'Kansen vertalen naar een schaalbare, veilige oplossing',
+      output: 'Technisch & functioneel ontwerp: architectuur, implementatieplan, KPI-dashboard design, adoptieplan',
+      placeholder: 'Placeholder: we ontwerpen integraties, datastromen en verantwoordelijkheden zodat teams veilig en gecontroleerd kunnen schalen.'
+    },
+    {
+      phase: '3. Build, Integrate & Adopt',
+      goal: 'Productieklare AI-oplossing opleveren en laten landen',
+      output: 'Werkende AI-oplossing in operatie met getrainde gebruikers',
+      placeholder: 'Placeholder: we bouwen, koppelen en testen iteratief met gebruikers zodat de oplossing direct werkt in het dagelijkse proces.'
+    },
+    {
+      phase: '4. Embed & Scale',
+      goal: 'AI verankeren als structurele organisatiecapability',
+      output: 'AI als structurele capability: governance ingericht, team autonoom, continuous improvement loop actief',
+      placeholder: 'Placeholder: we richten ritme, eigenaarschap en monitoring in zodat continue verbetering een vast onderdeel van de organisatie wordt.'
+    }
+  ];
+  const [activeTrajectoryIndex, setActiveTrajectoryIndex] = useState(0);
+  const [isTrajectoryAutoShuffleEnabled, setIsTrajectoryAutoShuffleEnabled] = useState(true);
 
   useEffect(() => {
     const workItems = Array.from(document.querySelectorAll<HTMLElement>('[data-work-item]'));
@@ -117,6 +151,28 @@ export default function HomePage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isTrajectoryAutoShuffleEnabled) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setActiveTrajectoryIndex((prev) => (prev + 1) % trajectorySteps.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isTrajectoryAutoShuffleEnabled, trajectorySteps.length]);
+
+  const activeTrajectoryStep = trajectorySteps[activeTrajectoryIndex];
+
+  const goToPreviousTrajectoryStep = () => {
+    setActiveTrajectoryIndex((prev) => (prev - 1 + trajectorySteps.length) % trajectorySteps.length);
+  };
+
+  const goToNextTrajectoryStep = () => {
+    setActiveTrajectoryIndex((prev) => (prev + 1) % trajectorySteps.length);
+  };
+
   return (
     <>
       {/* 1. Hero Section */}
@@ -207,6 +263,55 @@ export default function HomePage() {
               <p className="what-we-do__pillar-text">Tools, platforms and integrations that fit your workflows and scale.</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="how-section" id="how">
+        <div className="container">
+          <h2 className="how-section__title font-satoshi">We are your innovation AI partner</h2>
+          <p className="how-section__subtitle">We work like this:</p>
+          <div className="how-section__layout">
+            <div className="how-section__chapters" aria-label="Trajectory chapters">
+              {trajectorySteps.map((step, index) => (
+                <button
+                  key={step.phase}
+                  type="button"
+                  className={`how-section__chapter ${index === activeTrajectoryIndex ? 'is-active' : ''}`}
+                  onClick={() => {
+                    setActiveTrajectoryIndex(index);
+                    setIsTrajectoryAutoShuffleEnabled(false);
+                  }}
+                >
+                  {step.phase}
+                </button>
+              ))}
+            </div>
+
+            <article className="how-section__card" aria-live="polite">
+              <p className="how-section__phase">{activeTrajectoryStep.phase}</p>
+              <p className="how-section__goal">{activeTrajectoryStep.goal}</p>
+              <p className="how-section__output">{activeTrajectoryStep.output}</p>
+              <p className="how-section__placeholder">{activeTrajectoryStep.placeholder}</p>
+              <div className="how-section__controls">
+                <button
+                  type="button"
+                  className="how-section__control"
+                  onClick={goToPreviousTrajectoryStep}
+                  aria-label="Previous chapter"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  className="how-section__control"
+                  onClick={goToNextTrajectoryStep}
+                  aria-label="Next chapter"
+                >
+                  →
+                </button>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -408,7 +513,13 @@ export default function HomePage() {
 
               <div className="contact-panel__person">
                 <div className="contact-panel__avatar" aria-hidden="true">
-                  WK
+                  <Image
+                    src="/Ontwerp zonder titel (82).png"
+                    alt="Wessel van 't Klooster"
+                    width={168}
+                    height={168}
+                    className="contact-panel__avatar-image"
+                  />
                 </div>
                 <div className="contact-panel__person-meta">
                   <p className="contact-panel__name">Wessel van &apos;t Klooster</p>

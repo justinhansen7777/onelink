@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type ChallengeTopic = {
   id: string;
   label: string;
+  avatar: string;
   placeholder: string;
   href: string;
 };
@@ -14,6 +16,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'customer-support',
     label: 'Customer support',
+    avatar: '/challenge-icons/customer-support.svg',
     placeholder:
       'Placeholder use case text: automate ticket triage, generate response drafts, and shorten first-response times while maintaining quality.',
     href: '/portfolio'
@@ -21,6 +24,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'operations',
     label: 'Operations',
+    avatar: '/challenge-icons/operations.svg',
     placeholder:
       'Placeholder use case text: streamline repetitive tasks, detect bottlenecks early, and improve team throughput with AI copilots.',
     href: '/portfolio'
@@ -28,6 +32,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'sales',
     label: 'Sales',
+    avatar: '/challenge-icons/sales.svg',
     placeholder:
       'Placeholder use case text: score leads automatically, personalize outreach, and prioritize the highest-converting opportunities.',
     href: '/portfolio'
@@ -35,6 +40,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'healthcare',
     label: 'Healthcare',
+    avatar: '/challenge-icons/healthcare.svg',
     placeholder:
       'Placeholder use case text: support care coordination, summarize patient information, and reduce admin overhead for clinical teams.',
     href: '/portfolio'
@@ -42,6 +48,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'finance',
     label: 'Finance',
+    avatar: '/challenge-icons/finance.svg',
     placeholder:
       'Placeholder use case text: automate reporting workflows, flag anomalies, and provide faster financial insights for decision-making.',
     href: '/portfolio'
@@ -49,6 +56,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'hr',
     label: 'HR',
+    avatar: '/challenge-icons/hr.svg',
     placeholder:
       'Placeholder use case text: improve candidate screening, support onboarding flows, and answer internal policy questions instantly.',
     href: '/portfolio'
@@ -56,6 +64,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'manufacturing',
     label: 'Manufacturing',
+    avatar: '/challenge-icons/manufacturing.svg',
     placeholder:
       'Placeholder use case text: predict maintenance issues, optimize production planning, and reduce machine downtime across teams.',
     href: '/portfolio'
@@ -63,6 +72,7 @@ const challengeTopics: ChallengeTopic[] = [
   {
     id: 'marketing',
     label: 'Marketing',
+    avatar: '/challenge-icons/marketing.svg',
     placeholder:
       'Placeholder use case text: generate campaign concepts, personalize content, and identify high-performing audience segments.',
     href: '/portfolio'
@@ -75,20 +85,30 @@ export function ChallengesSection() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasInitializedLoopRef = useRef(false);
 
-  useEffect(() => {
-    const selectedIndex = challengeTopics.findIndex((topic) => topic.id === selectedTopic);
-    const selectedCard = cardRefs.current[selectedIndex];
+  const loopedTopics = [...challengeTopics, ...challengeTopics, ...challengeTopics];
+
+  const centerTopicInMiddleLoop = (topicId: string, behavior: ScrollBehavior = 'smooth') => {
+    const baseIndex = challengeTopics.findIndex((topic) => topic.id === topicId);
+    const middleIndex = baseIndex + challengeTopics.length;
+    const selectedCard = cardRefs.current[middleIndex];
 
     if (!selectedCard || !sliderRef.current) {
       return;
     }
 
     selectedCard.scrollIntoView({
-      behavior: 'smooth',
+      behavior,
       inline: 'center',
       block: 'nearest'
     });
+  };
+
+  useEffect(() => {
+    const behavior: ScrollBehavior = hasInitializedLoopRef.current ? 'smooth' : 'auto';
+    centerTopicInMiddleLoop(selectedTopic, behavior);
+    hasInitializedLoopRef.current = true;
   }, [selectedTopic]);
 
   useEffect(() => {
@@ -100,6 +120,20 @@ export function ChallengesSection() {
   }, []);
 
   const handleSliderScroll = () => {
+    const slider = sliderRef.current;
+
+    if (slider) {
+      const segmentWidth = slider.scrollWidth / 3;
+      const leftThreshold = segmentWidth * 0.5;
+      const rightThreshold = segmentWidth * 1.5;
+
+      if (slider.scrollLeft < leftThreshold) {
+        slider.scrollLeft += segmentWidth;
+      } else if (slider.scrollLeft > rightThreshold) {
+        slider.scrollLeft -= segmentWidth;
+      }
+    }
+
     setIsScrolling(true);
 
     if (scrollTimeoutRef.current) {
@@ -142,24 +176,33 @@ export function ChallengesSection() {
           ref={sliderRef}
           onScroll={handleSliderScroll}
         >
-          <div className="challenges__spacer" aria-hidden="true" />
-          {challengeTopics.map((topic, index) => (
+          {loopedTopics.map((topic, index) => (
             <article
-              key={topic.id}
+              key={`${topic.id}-${index}`}
               ref={(node) => {
                 cardRefs.current[index] = node;
               }}
               className={`challenges__card ${selectedTopic === topic.id ? 'is-active' : ''}`}
               onClick={() => setSelectedTopic(topic.id)}
             >
-              <p className="challenges__topic">{topic.label}</p>
+              <div className="challenges__topic-row">
+                <p className="challenges__topic">{topic.label}</p>
+                <span className="challenges__avatar" aria-hidden="true">
+                  <Image
+                    src={topic.avatar}
+                    alt=""
+                    width={22}
+                    height={22}
+                    className="challenges__avatar-icon"
+                  />
+                </span>
+              </div>
               <p className="challenges__body">{topic.placeholder}</p>
               <Link href={topic.href} className="btn btn--outline nav__btn challenges__learn-btn">
                 Learn more
               </Link>
             </article>
           ))}
-          <div className="challenges__spacer" aria-hidden="true" />
         </div>
 
         <div className="challenges__footer">

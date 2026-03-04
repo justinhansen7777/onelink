@@ -49,7 +49,6 @@ export function CompanyCarousel() {
     let bottomListWidth = bottomList.scrollWidth;
     let topOffset = 0;
     let bottomPosition = 0;
-    let lastScrollY = window.scrollY;
     let rafId: number | null = null;
     const speedFactor = 0.7;
 
@@ -95,33 +94,49 @@ export function CompanyCarousel() {
       rafId = window.requestAnimationFrame(render);
     };
 
+    const syncWithScrollPosition = (scrollY: number) => {
+      if (topListWidth > 0) {
+        topOffset = normalizeOffset(-(scrollY * speedFactor), topListWidth);
+      }
+
+      if (bottomListWidth > 0) {
+        bottomPosition = (scrollY * speedFactor) % bottomListWidth;
+      }
+
+      scheduleRender();
+    };
+
     const updateListWidth = () => {
       topListWidth = topList.scrollWidth;
       bottomListWidth = bottomList.scrollWidth;
-      scheduleRender();
+      syncWithScrollPosition(window.scrollY);
     };
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY;
-      lastScrollY = currentScrollY;
-
-      if (delta === 0) {
-        return;
-      }
-
-      topOffset -= delta * speedFactor;
-      bottomPosition += delta * speedFactor;
-      scheduleRender();
+      syncWithScrollPosition(window.scrollY);
     };
+
+    const listResizeObserver = new ResizeObserver(updateListWidth);
+    listResizeObserver.observe(topList);
+    listResizeObserver.observe(bottomList);
+
+    const fontSet = document.fonts;
+    const handleFontLoad = () => updateListWidth();
+
+    fontSet?.addEventListener('loadingdone', handleFontLoad);
+    fontSet?.ready.then(updateListWidth).catch(() => {
+      // Ignore font loading failures and keep the current widths.
+    });
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', updateListWidth);
-    render();
+    syncWithScrollPosition(window.scrollY);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', updateListWidth);
+      fontSet?.removeEventListener('loadingdone', handleFontLoad);
+      listResizeObserver.disconnect();
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId);
       }
