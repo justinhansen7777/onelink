@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaDesktop, FaWrench, FaUsers, FaCode, FaPencilAlt, FaRocket, FaLaptopCode, FaCheckSquare, FaBrain, FaTools, FaCubes, FaSyncAlt, FaShieldAlt, FaPuzzlePiece } from 'react-icons/fa';
+import { FaWrench, FaLaptopCode, FaCubes, FaSyncAlt, FaShieldAlt, FaPuzzlePiece } from 'react-icons/fa';
 import { ImageCarousel } from '../components/ImageCarousel';
 import { ServiceCard } from '../components/ServiceCard';
+import { CompanyCarousel } from '../components/CompanyCarousel';
 
 export default function HomePage() {
   const trainingImages = [
@@ -17,62 +18,76 @@ export default function HomePage() {
   return (
     <>
       {/* 1. Hero Section */}
-      <section id="home" className="hero container">
-        <Image
-            src="/small-logo.png"
-            alt="Onelink Icon"
-            width={40}
-            height={40}
-            style={{ marginBottom: '1rem' }}
-          />
-        <h1 className="font-satoshi">
-         Unlock AI for <span className="text-gradient">your business.</span>
-        </h1>
-        <p>Onelink builds AI tools that integrate seamlessly with your workflows and drive measurable business value. We also provide team training to ensure your organization can adopt and apply AI effectively.
-
-</p>
-        
-      </section>
-
-      
-
-      {/* 2. Services Section */}
-      <section id="services" className="services">
+      <section id="home" className="hero hero--aurora">
         <div className="container">
-          <div className="services__grid">
-            <div className="service-card">
-              <div className="service-card__icon"><FaRocket /></div>
-              <div className="service-card__content">
-                <h3>Streamline your work</h3>
-                <p>We automate repetitive tasks so your team can focus on strategy, innovation, and impact.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-card__icon"><FaBrain /></div>
-              <div className="service-card__content">
-                <h3>Confident with AI</h3>
-                <p>We train and support your team to adopt AI effectively, without needing a technical background.</p>
-              </div>
-            </div>
-            <div className="service-card">
-              <div className="service-card__icon"><FaTools /></div>
-              <div className="service-card__content">
-                <h3>Built around your business</h3>
-                <p>We develop custom AI tools that match your workflows and deliver measurable results.</p>
-              </div>
-            </div>
-          </div>
-          <div className="services__button-container">
-            <Link href="#work" className="btn btn--explore font-satoshi">
-                Explore Work
+          <h1 className="font-satoshi">
+            AI that works.
+          </h1>
+          <p className="hero__subheadline">
+            We build a <strong>working AI system</strong> where governance, culture, and technology come together. Start with our <strong>free AI Readiness Scan</strong> and discover where the biggest opportunities lie.
+          </p>
+          <div className="hero__buttons">
+            <Link href="#contact" className="btn btn--secondary btn--hero-secondary font-satoshi">
+              Free AI Readiness Scan
+            </Link>
+            <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--hero-primary font-satoshi">
+              Schedule a call
             </Link>
           </div>
         </div>
       </section>
 
-    
+      {/* Companies strip (below hero) */}
+      <section className="companies-section" aria-label="Organisations we helped">
+        <CompanyCarousel />
+      </section>
 
-      {/* 4. Testimonials Section */}
+      {/* What We Do + How We Do It */}
+      <section id="what-we-do" className="what-we-do">
+        <div className="container">
+          <h2 className="what-we-do__title font-satoshi">
+            What We Do <span style={{ color: 'var(--text-primary)' }}>+</span> How We Do It
+          </h2>
+          <p className="what-we-do__intro">
+            From our experience, AI initiatives rarely fail because of the technology itself. They fail because governance, culture, and systems are not aligned. Real impact only happens when these elements evolve together as one integrated system.
+          </p>
+          <div className="what-we-do__diagram">
+            <div className="what-we-do__pillar what-we-do__pillar--governance">
+              <span className="what-we-do__pillar-label">Governance</span>
+              <p className="what-we-do__pillar-text">Clear ownership, policies and decision rights so AI is safe and accountable.</p>
+            </div>
+            <div className="what-we-do__pillar what-we-do__pillar--culture">
+              <span className="what-we-do__pillar-label">Culture</span>
+              <p className="what-we-do__pillar-text">People who understand and adopt AI, with the right mindset and skills.</p>
+            </div>
+            <div className="what-we-do__pillar what-we-do__pillar--technology">
+              <span className="what-we-do__pillar-label">Technology</span>
+              <p className="what-we-do__pillar-text">Tools, platforms and integrations that fit your workflows and scale.</p>
+            </div>
+            <div className="what-we-do__hub">
+              <span className="what-we-do__hub-label">System</span>
+              <p className="what-we-do__hub-text">One integrated system where governance, culture and technology work together.</p>
+            </div>
+          </div>
+          <div className="what-we-do__process">
+            <div className="what-we-do__process-brace" aria-hidden="true">{'}'}</div>
+            <div className="what-we-do__process-steps">
+              <span className="what-we-do__process-step">Fundament</span>
+              <span className="what-we-do__process-arrow" aria-hidden="true">→</span>
+              <span className="what-we-do__process-step">Diagnose</span>
+              <span className="what-we-do__process-arrow" aria-hidden="true">→</span>
+              <span className="what-we-do__process-step">Build</span>
+              <span className="what-we-do__process-arrow" aria-hidden="true">→</span>
+              <span className="what-we-do__process-step">Scale</span>
+            </div>
+            <p className="what-we-do__process-desc">
+              We start with a solid fundament, diagnose your readiness, build the right solution, then scale it across your organization.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Testimonials Section */}
       <section id="testimonials" className="testimonials">
           <div className="container">
             <div className="testimonial">
