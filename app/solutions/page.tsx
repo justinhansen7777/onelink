@@ -1,31 +1,99 @@
 import React from 'react';
 import Link from 'next/link';
+import { FaWrench, FaLaptopCode, FaCubes, FaSyncAlt, FaShieldAlt, FaPuzzlePiece } from 'react-icons/fa';
+import { ServiceCard } from '@/components/ServiceCard';
+import { ImageCarousel } from '@/components/ImageCarousel';
 
 export default function SolutionsPage() {
+  const trainingImages = [
+    '/training-image-1.jpg',
+    '/training-image-2.jpg',
+    '/training-image-3.jpg',
+    '/training-image-4.jpg',
+    '/training-image-5.jpg'
+  ];
+
   return (
-    <section className="hero" style={{ paddingTop: '8rem' }}>
-      <div className="container">
-        <h1 className="font-satoshi">
-          <span style={{ color: 'var(--text-primary)' }}>Our</span>{' '}
-          <span className="text-gradient">Solutions</span>
-        </h1>
-        <p className="hero__subheadline" style={{ maxWidth: '600px', margin: '0 auto 2rem' }}>
-          From intelligent systems to GenAI training, we help organizations put AI to work in a secure, scalable way.
-        </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', marginBottom: '3rem' }}>
-          <Link href="/#about" className="btn btn--gradient-border font-satoshi">
-            Intelligent systems
-          </Link>
-          <Link href="/#training" className="btn btn--gradient-border font-satoshi">
-            GenAI training
-          </Link>
+    <>
+      <section className="hero hero--aurora">
+        <div className="container">
+          <h1 className="font-satoshi">Solutions</h1>
+          <p className="hero__subheadline">
+            We design and deliver AI systems that align governance, culture, and technology to create measurable business value.
+          </p>
+          <div className="hero__buttons">
+            <Link href="/#about" className="btn btn--secondary btn--hero-secondary font-satoshi">
+              Explore solutions
+            </Link>
+            <Link
+              href="https://cal.com/justin-hansen/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn--primary btn--hero-primary font-satoshi"
+            >
+              Schedule a call
+            </Link>
+          </div>
         </div>
-        <p style={{ color: 'var(--text-secondary)', marginTop: '2rem' }}>
-          <Link href="/" className="nav__link" style={{ fontWeight: 600 }}>
-            ← Back to home
-          </Link>
-        </p>
-      </div>
-    </section>
+      </section>
+
+      <section id="about" className="new-services">
+        <div className="container">
+          <div className="new-services__header">
+            <h2 className="font-satoshi">We build <span className="text-gradient">intelligent systems</span></h2>
+            <p>From internal tools to automation platforms, Onelink delivers scalable, secure AI solutions that streamline operations and drive results.</p>
+          </div>
+          <div className="new-services__grid">
+            <ServiceCard
+              icon={<FaCubes />}
+              title="AI-Powered Platforms"
+              text="Custom tools built to solve real business problems. Think smarter workflows, internal chatbots and automated systems that actually work."
+            />
+            <ServiceCard
+              icon={<FaSyncAlt />}
+              title="Workflow Automation"
+              text="We automate the boring stuff, from manual processes to fragmented tools, so your teams can move faster with fewer errors."
+            />
+            <ServiceCard
+              icon={<FaShieldAlt />}
+              title="Secure Deployment"
+              text="We host and deploy AI systems with enterprise-grade security and reliability. Always optimized, always available."
+            />
+            <ServiceCard
+              icon={<FaWrench />}
+              title="System Maintenance"
+              text="We keep your AI solutions performing at their best. Continuous monitoring, updates and improvements included."
+            />
+            <ServiceCard
+              icon={<FaLaptopCode />}
+              title="End-to-End Development"
+              text="From idea to full product. We handle everything including backend logic, APIs, frontend and AI integration, all built for scale."
+            />
+            <ServiceCard
+              icon={<FaPuzzlePiece />}
+              title="Specialized Solutions"
+              text="Internal platforms, smart dashboards and custom chatbots. Whatever improves your operations, we build it with care and precision."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="training" className="training">
+        <div className="container">
+          <div className="training__main-content">
+            <ImageCarousel images={trainingImages} />
+            <div className="training__more-info">
+              <h3 className="font-satoshi">
+                <span>Or just want to know more about </span>
+                <span className="text-gradient">GenAI?</span>
+              </h3>
+              <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--live font-satoshi btn--training-cta">
+                Book a training
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

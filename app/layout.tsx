@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import React from 'react';
 import '../styles/globals.css';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Onelink – AI Solutions',
@@ -9,19 +10,6 @@ export const metadata: Metadata = {
   icons: {
     icon: '/small-logo.png',
   },
-};
-
-const Footer = () => {
-  return (
-    <footer className="footer">
-      <div className="container">
-        <ul className="footer__links">
-
-        </ul>
-        <p>&copy; {new Date().getFullYear()} Onelink. All rights reserved.</p>
-      </div>
-    </footer>
-  );
 };
 
 export default function RootLayout({

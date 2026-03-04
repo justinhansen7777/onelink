@@ -3,26 +3,39 @@ import Link from 'next/link';
 
 export default function PortfolioPage() {
   return (
-    <section className="hero" style={{ paddingTop: '8rem' }}>
-      <div className="container">
-        <h1 className="font-satoshi">
-          <span style={{ color: 'var(--text-primary)' }}>Our</span>{' '}
-          <span className="text-gradient">Portfolio</span>
-        </h1>
-        <p className="hero__subheadline" style={{ maxWidth: '600px', margin: '0 auto 2rem' }}>
-          A selection of AI-powered products and projects we’ve built for our clients.
-        </p>
-        <div style={{ marginBottom: '2rem' }}>
-          <Link href="/#work" className="btn btn--gradient-border font-satoshi">
-            View our work
-          </Link>
+    <>
+      <section className="hero hero--aurora">
+        <div className="container">
+          <h1 className="font-satoshi">Portfolio</h1>
+          <p className="hero__subheadline">
+            A showcase of platforms, workflows, and AI products we have built to help organizations move faster with confidence.
+          </p>
+          <div className="hero__buttons">
+            <Link href="/#work" className="btn btn--secondary btn--hero-secondary font-satoshi">
+              View our work
+            </Link>
+            <Link
+              href="https://cal.com/justin-hansen/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn--primary btn--hero-primary font-satoshi"
+            >
+              Schedule a call
+            </Link>
+          </div>
         </div>
-        <p style={{ color: 'var(--text-secondary)', marginTop: '2rem' }}>
-          <Link href="/" className="nav__link" style={{ fontWeight: 600 }}>
-            ← Back to home
-          </Link>
-        </p>
-      </div>
-    </section>
+      </section>
+
+      <section>
+        <div className="container">
+          <h2 className="font-satoshi" style={{ color: 'var(--text-primary)' }}>
+            Featured projects
+          </h2>
+          <p style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
+            Explore a selection of practical AI implementations, from operational dashboards to secure knowledge assistants and automation systems.
+          </p>
+        </div>
+      </section>
+    </>
   );
 }

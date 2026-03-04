@@ -7,6 +7,7 @@ import Image from 'next/image';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<'solutions' | 'portfolio' | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -68,6 +69,21 @@ const Header = () => {
           </ul>
         </nav>
         <div className="nav__buttons">
+          <label className="nav__language-label" htmlFor="header-language-select">
+            Language
+          </label>
+          <select
+            id="header-language-select"
+            className="nav__language-select"
+            value={selectedLanguage}
+            onChange={(event) => setSelectedLanguage(event.target.value)}
+            aria-label="Select language"
+          >
+            <option value="en" aria-label="English">🇬🇧</option>
+            <option value="nl" aria-label="Dutch">🇳🇱</option>
+            <option value="de" aria-label="German">🇩🇪</option>
+            <option value="fr" aria-label="French">🇫🇷</option>
+          </select>
           <Link href="/#contact" className="btn btn--live">
             Free AI readiness scan
           </Link>
