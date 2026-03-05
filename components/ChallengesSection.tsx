@@ -9,7 +9,6 @@ type ChallengeTopic = {
   label: string;
   avatar: string;
   placeholder: string;
-  href: string;
 };
 
 const challengeTopics: ChallengeTopic[] = [
@@ -18,64 +17,56 @@ const challengeTopics: ChallengeTopic[] = [
     label: 'Customer support',
     avatar: '/challenge-icons/customer-support.svg',
     placeholder:
-      'Placeholder use case text: automate ticket triage, generate response drafts, and shorten first-response times while maintaining quality.',
-    href: '/portfolio'
+      'Support teams handle large volumes of requests while customers expect fast and consistent responses. At the same time, valuable insights remain hidden in tickets, emails, and conversations.'
   },
   {
     id: 'operations',
     label: 'Operations',
     avatar: '/challenge-icons/operations.svg',
     placeholder:
-      'Placeholder use case text: streamline repetitive tasks, detect bottlenecks early, and improve team throughput with AI copilots.',
-    href: '/portfolio'
+      'Operational processes often span multiple systems, making it difficult to detect bottlenecks or inefficiencies early. Teams spend significant time coordinating tasks and interpreting fragmented information.'
   },
   {
     id: 'sales',
     label: 'Sales',
     avatar: '/challenge-icons/sales.svg',
     placeholder:
-      'Placeholder use case text: score leads automatically, personalize outreach, and prioritize the highest-converting opportunities.',
-    href: '/portfolio'
+      'Sales teams rely on incomplete pipeline visibility and manual forecasting, making revenue performance difficult to predict. Identifying the most promising opportunities and understanding revenue changes remains challenging.'
   },
   {
     id: 'healthcare',
     label: 'Healthcare',
     avatar: '/challenge-icons/healthcare.svg',
     placeholder:
-      'Placeholder use case text: support care coordination, summarize patient information, and reduce admin overhead for clinical teams.',
-    href: '/portfolio'
+      'Healthcare organizations manage large volumes of documentation and administrative tasks alongside critical operational responsibilities. Extracting useful insights from medical records, forms, and feedback can be time-consuming.'
   },
   {
     id: 'finance',
     label: 'Finance',
     avatar: '/challenge-icons/finance.svg',
     placeholder:
-      'Placeholder use case text: automate reporting workflows, flag anomalies, and provide faster financial insights for decision-making.',
-    href: '/portfolio'
+      'Financial teams need to monitor margins, costs, and performance across multiple systems and departments. Detecting anomalies, explaining financial changes, and maintaining control over complex data environments can be difficult.'
   },
   {
     id: 'hr',
     label: 'HR',
     avatar: '/challenge-icons/hr.svg',
     placeholder:
-      'Placeholder use case text: improve candidate screening, support onboarding flows, and answer internal policy questions instantly.',
-    href: '/portfolio'
+      'HR teams support employees across onboarding, internal processes, and policy management while dealing with fragmented knowledge sources. Employees often struggle to find the information they need quickly.'
   },
   {
     id: 'manufacturing',
     label: 'Manufacturing',
     avatar: '/challenge-icons/manufacturing.svg',
     placeholder:
-      'Placeholder use case text: predict maintenance issues, optimize production planning, and reduce machine downtime across teams.',
-    href: '/portfolio'
+      'Manufacturing environments generate large volumes of operational and system data that are difficult to interpret in real time. Detecting equipment issues, operational inefficiencies, and production risks early remains a major challenge.'
   },
   {
     id: 'marketing',
     label: 'Marketing',
     avatar: '/challenge-icons/marketing.svg',
     placeholder:
-      'Placeholder use case text: generate campaign concepts, personalize content, and identify high-performing audience segments.',
-    href: '/portfolio'
+      'Marketing teams generate large amounts of campaign data, feedback, and customer signals across different platforms. Turning this information into clear insights about what drives engagement, leads, and growth is often difficult.'
   }
 ];
 
@@ -199,7 +190,7 @@ export function ChallengesSection() {
                 </span>
               </div>
               <p className="challenges__body">{topic.placeholder}</p>
-              <Link href={topic.href} className="btn btn--outline nav__btn challenges__learn-btn">
+              <Link href={`/solutions?industry=${topic.id}`} className="btn btn--outline nav__btn challenges__learn-btn">
                 Learn more
               </Link>
             </article>
