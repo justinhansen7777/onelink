@@ -602,10 +602,9 @@ export default function HomePage() {
               className={`work-item work-item--single-image ${activeWorkItem === 'oneview' ? 'is-active' : ''}`}
               data-work-item="oneview"
             >
-              <span className="work-item__timeline-marker" aria-hidden="true"></span>
                <div className="work-item__image-box">
                   <Image 
-                    src="/screenshot-2025-09-21-12-48-59.png"
+                    src="/Scherm%C2%ADafbeelding%202026-03-05%20om%2010.35.12.png"
                     alt="Oneview dashboard preview"
                     width={400}
                     height={250}
@@ -613,13 +612,14 @@ export default function HomePage() {
                   />
               </div>
               <div className="work-item__content">
-                 <Image 
+                <Image 
                   src="/3.png"
                   alt="Oneview Logo"
                   width={150}
                   height={40}
                   className="work-item__logo-title"
                 />
+                <span className="work-item__year">2026</span>
                 <h3 className="work-item__title">Oneview</h3>
                  <div className="work-item__description">
                   <p>A platform that gives teams a clear, visual overview of their business.
@@ -645,7 +645,6 @@ export default function HomePage() {
               className={`work-item work-item--single-image ${activeWorkItem === 'onesynq' ? 'is-active' : ''}`}
               data-work-item="onesynq"
             >
-              <span className="work-item__timeline-marker" aria-hidden="true"></span>
               <div className="work-item__image-box">
                   <Image 
                     src="/hero-dashboard.png"
@@ -663,6 +662,7 @@ export default function HomePage() {
                   height={40}
                   className="work-item__logo-title"
                 />
+                <span className="work-item__year">2025</span>
                 <h3 className="work-item__title">Onesynq</h3>
                 <div className="work-item__description">
                   <p>A communication layer that connects planning tools with frontline teams.</p>
@@ -682,14 +682,13 @@ export default function HomePage() {
               className={`work-item work-item--single-image ${activeWorkItem === 'onechat' ? 'is-active' : ''}`}
               data-work-item="onechat"
             >
-              <span className="work-item__timeline-marker" aria-hidden="true"></span>
               <div className="work-item__image-box">
                   <Image 
                     src="/schermafbeelding-2025-07-08-10-17-57.png"
                     alt="Onechat dashboard preview"
                     width={400}
                     height={250}
-                    className="work-item__image"
+                    className="work-item__image work-item__image--onechat"
                   />
               </div>
               <div className="work-item__content">
@@ -700,6 +699,7 @@ export default function HomePage() {
                   height={40}
                   className="work-item__logo-title"
                 />
+                <span className="work-item__year">2025</span>
                 <h3 className="work-item__title">Onechat</h3>
                 <div className="work-item__description">
                   <p>A secure AI chatbot trained on your internal knowledge.
@@ -710,7 +710,7 @@ export default function HomePage() {
                 </div>
                 <div className="work-item__separator"></div>
                 <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--live">
-                  Schedule a call
+                  Learn more
                 </Link>
               </div>
             </div>
@@ -721,69 +721,71 @@ export default function HomePage() {
       <section className="contact-panel section-reveal" id="contact-form">
         <div className="container">
           <div className="contact-panel__shell">
-            <div className="contact-panel__intro">
-              <p className="contact-panel__eyebrow">Get in touch</p>
-              <h2 className="contact-panel__title font-satoshi">Let&apos;s talk about your AI roadmap</h2>
-              <p className="contact-panel__copy">
-                Share your details and context. We&apos;ll get back to you for a short call to explore your opportunities.
-              </p>
+            <div className="contact-panel__content">
+              <div className="contact-panel__intro">
+                <p className="contact-panel__eyebrow">Get in touch</p>
+                <h2 className="contact-panel__title font-satoshi">Let&apos;s talk about your AI roadmap</h2>
+                <p className="contact-panel__copy">
+                  Share your details and context. We&apos;ll get back to you for a short call to explore your opportunities.
+                </p>
 
-              <div className="contact-panel__person">
-                <div className="contact-panel__avatar" aria-hidden="true">
-                  <Image
-                    src="/Ontwerp zonder titel (82).png"
-                    alt="Wessel van 't Klooster"
-                    width={168}
-                    height={168}
-                    className="contact-panel__avatar-image"
-                  />
+                <div className="contact-panel__person">
+                  <div className="contact-panel__avatar" aria-hidden="true">
+                    <Image
+                      src="/Ontwerp zonder titel (82).png"
+                      alt="Wessel van 't Klooster"
+                      width={168}
+                      height={168}
+                      className="contact-panel__avatar-image"
+                    />
+                  </div>
+                  <div className="contact-panel__person-meta">
+                    <p className="contact-panel__name">Wessel van &apos;t Klooster</p>
+                    <p className="contact-panel__role">Co-founder</p>
+                    <p className="contact-panel__company">Onelink</p>
+                  </div>
                 </div>
-                <div className="contact-panel__person-meta">
-                  <p className="contact-panel__name">Wessel van &apos;t Klooster</p>
-                  <p className="contact-panel__role">Co-founder</p>
-                  <p className="contact-panel__company">Onelink</p>
-                </div>
+
+                <p className="contact-panel__note">
+                  Prefer to plan directly?{" "}
+                  <Link
+                    href="https://cal.com/justin-hansen/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-panel__schedule-link"
+                  >
+                    Schedule a call
+                  </Link>
+                  .
+                </p>
               </div>
 
-              <p className="contact-panel__note">
-                Prefer to plan directly?{" "}
-                <Link
-                  href="https://cal.com/justin-hansen/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-panel__schedule-link"
-                >
-                  Schedule a call
-                </Link>
-                .
-              </p>
+              <form className="contact-panel__form" onSubmit={(event) => event.preventDefault()}>
+                <label htmlFor="contact-name">Name</label>
+                <input id="contact-name" name="name" type="text" placeholder="Your name" required />
+
+                <label htmlFor="contact-company">Company Name</label>
+                <input id="contact-company" name="company" type="text" placeholder="Your company" required />
+
+                <label htmlFor="contact-phone">Phone / Mobile</label>
+                <input id="contact-phone" name="phone" type="tel" placeholder="+31 ..." required />
+
+                <label htmlFor="contact-email">Email</label>
+                <input id="contact-email" name="email" type="email" placeholder="name@company.com" required />
+
+                <label htmlFor="contact-message">What should we prepare for?</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  placeholder="Tell us your current challenge, goals, or idea."
+                  rows={4}
+                />
+
+                <button type="submit" className="btn btn--live contact-panel__submit">
+                  Request contact
+                </button>
+              </form>
             </div>
-
-            <form className="contact-panel__form" onSubmit={(event) => event.preventDefault()}>
-              <label htmlFor="contact-name">Name</label>
-              <input id="contact-name" name="name" type="text" placeholder="Your name" required />
-
-              <label htmlFor="contact-company">Company Name</label>
-              <input id="contact-company" name="company" type="text" placeholder="Your company" required />
-
-              <label htmlFor="contact-phone">Phone / Mobile</label>
-              <input id="contact-phone" name="phone" type="tel" placeholder="+31 ..." required />
-
-              <label htmlFor="contact-email">Email</label>
-              <input id="contact-email" name="email" type="email" placeholder="name@company.com" required />
-
-              <label htmlFor="contact-message">What should we prepare for?</label>
-              <textarea
-                id="contact-message"
-                name="message"
-                placeholder="Tell us your current challenge, goals, or idea."
-                rows={4}
-              />
-
-              <button type="submit" className="btn btn--live contact-panel__submit">
-                Request contact
-              </button>
-            </form>
           </div>
         </div>
       </section>

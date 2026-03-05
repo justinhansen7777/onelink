@@ -10,11 +10,11 @@ const Footer = () => {
           <div className="site-footer__brand">
             <Link href="/" className="site-footer__logo" aria-label="Onelink homepage">
               <Image
-                src="/onelink-logo.png"
+                src="/4.png"
                 alt="Onelink Logo"
-                width={118}
-                height={34}
-                style={{ height: '34px', width: 'auto' }}
+                width={215}
+                height={68}
+                style={{ height: '68px', width: 'auto' }}
               />
             </Link>
             <p className="site-footer__tagline">Asana clarity in minutes</p>

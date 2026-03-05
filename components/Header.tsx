@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -8,6 +8,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<'solutions' | 'portfolio' | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [useLightLogo, setUseLightLogo] = useState(true);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -19,16 +20,70 @@ const Header = () => {
     setOpenDropdown(null);
   };
 
+  useEffect(() => {
+    let rafId = 0;
+
+    const updateLogoVariant = () => {
+      const header = document.querySelector<HTMLElement>('.header');
+      const headerHeight = header?.offsetHeight ?? 96;
+      const probeY = Math.min(window.innerHeight - 1, Math.max(0, Math.round(headerHeight * 0.75)));
+      const containers = Array.from(document.querySelectorAll<HTMLElement>('section, footer'));
+      const currentContainer =
+        containers.find((container) => {
+          const rect = container.getBoundingClientRect();
+          return rect.top <= probeY && rect.bottom >= probeY;
+        }) ?? null;
+
+      if (!currentContainer) {
+        setUseLightLogo(false);
+        return;
+      }
+
+      const containerClasses = Array.from(currentContainer.classList).map((className) => className.toLowerCase());
+      const isAuroraSection = containerClasses.some((className) => className.includes('aurora'));
+      const isDarkNonAuroraSection = containerClasses.some((className) =>
+        ['contact-panel', 'challenges'].includes(className)
+      );
+
+      setUseLightLogo(isAuroraSection || isDarkNonAuroraSection);
+    };
+
+    const requestUpdate = () => {
+      if (rafId) {
+        return;
+      }
+
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        updateLogoVariant();
+      });
+    };
+
+    updateLogoVariant();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
+  }, []);
+
+  const headerLogoSrc = useLightLogo ? '/5.png' : '/4.png';
+
   return (
-    <header className="header">
+    <header className={`header ${useLightLogo ? 'header--aurora' : 'header--light'}`}>
       <div className="container nav">
         <Link href="/" className="nav__logo">
           <Image
-            src="/onelink-logo.png"
+            src={headerLogoSrc}
             alt="Onelink Logo"
-            width={100}
-            height={32}
-            style={{ height: '32px', width: 'auto' }}
+            width={195}
+            height={62}
+            style={{ height: '62px', width: 'auto' }}
             priority
           />
         </Link>
@@ -84,10 +139,10 @@ const Header = () => {
             <option value="de" aria-label="German">🇩🇪</option>
             <option value="fr" aria-label="French">🇫🇷</option>
           </select>
-          <Link href="/#contact" className="btn btn--live">
+          <Link href="/#contact" className="btn btn--hero-action btn--transparent-box nav__btn">
             Free AI readiness scan
           </Link>
-          <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--outline nav__btn">
+          <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--hero-action btn--transparent-box nav__btn">
             Schedule a call
           </Link>
         </div>
