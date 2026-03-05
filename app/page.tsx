@@ -6,8 +6,18 @@ import Image from 'next/image';
 import { CompanyCarousel } from '../components/CompanyCarousel';
 import { ChallengesSection } from '@/components/ChallengesSection';
 
+type TestimonialSlide = {
+  id: string;
+  company: string;
+  quote: string;
+  logoSrc: string;
+  logoAlt: string;
+  useCaseHref: string;
+};
+
 export default function HomePage() {
   const [activeWorkItem, setActiveWorkItem] = useState('oneview');
+  const testimonialMeasureRef = useRef<HTMLDivElement>(null);
   const pillarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [pillarSpotlights, setPillarSpotlights] = useState([
     { x: 0, y: 0, opacity: 1 },
@@ -16,38 +26,116 @@ export default function HomePage() {
   ]);
   const trajectorySteps = [
     {
-      phase: '0. AI Readiness Scan',
-      goal: 'Eerste inzicht in AI-gereedheid + relatie opbouwen',
-      output: 'AI Readiness Rapport (geautomatiseerd) + discovery call',
-      placeholder: 'Placeholder: we brengen huidige processen, data, rollen en ambitie in kaart zodat we direct een helder vertrekpunt hebben.'
+      phase: '0. AI Scan',
+      text: 'A quick assessment that reveals where AI can create the most value in your organization.',
+      labels: [
+        'Assess AI readiness',
+        'Identify opportunities',
+        'Map key domains',
+        'Create opportunity map'
+      ]
     },
     {
-      phase: '1. Diagnose & Opportunity',
-      goal: 'Vaststellen waar AI aantoonbare waarde creeert',
-      output: 'AI Opportunity Blueprint: geprioriteerde use cases, business case per use case, readiness-gap analyse, implementatie-roadmap',
-      placeholder: 'Placeholder: we prioriteren kansen op impact en haalbaarheid en vertalen dit naar een concrete volgorde voor implementatie.'
+      phase: '1. Diagnose',
+      text: 'We analyze processes, data, and stakeholders to identify the AI opportunities with the highest impact.',
+      labels: [
+        'Analyze processes',
+        'Assess data',
+        'Interview stakeholders',
+        'Define use cases'
+      ]
     },
     {
-      phase: '2. Architect & Design',
-      goal: 'Kansen vertalen naar een schaalbare, veilige oplossing',
-      output: 'Technisch & functioneel ontwerp: architectuur, implementatieplan, KPI-dashboard design, adoptieplan',
-      placeholder: 'Placeholder: we ontwerpen integraties, datastromen en verantwoordelijkheden zodat teams veilig en gecontroleerd kunnen schalen.'
+      phase: '2. Design',
+      text: 'We design a scalable AI architecture and define how AI integrates with existing systems.',
+      labels: [
+        'Design architecture',
+        'Plan integrations',
+        'Define governance',
+        'Create roadmap'
+      ]
     },
     {
-      phase: '3. Build, Integrate & Adopt',
-      goal: 'Productieklare AI-oplossing opleveren en laten landen',
-      output: 'Werkende AI-oplossing in operatie met getrainde gebruikers',
-      placeholder: 'Placeholder: we bouwen, koppelen en testen iteratief met gebruikers zodat de oplossing direct werkt in het dagelijkse proces.'
+      phase: '3. Build',
+      text: 'We develop and integrate AI solutions into existing workflows and support teams in adopting them.',
+      labels: [
+        'Develop AI solutions',
+        'Integrate systems',
+        'Automate workflows',
+        'Deploy to production'
+      ]
     },
     {
-      phase: '4. Embed & Scale',
-      goal: 'AI verankeren als structurele organisatiecapability',
-      output: 'AI als structurele capability: governance ingericht, team autonoom, continuous improvement loop actief',
-      placeholder: 'Placeholder: we richten ritme, eigenaarschap en monitoring in zodat continue verbetering een vast onderdeel van de organisatie wordt.'
+      phase: '4. Scale',
+      text: 'AI becomes a structural capability in the organization with monitoring, governance, and continuous improvement.',
+      labels: [
+        'Monitor performance',
+        'Optimize models',
+        'Expand use cases',
+        'Continuous improvement'
+      ]
     }
   ];
   const [activeTrajectoryIndex, setActiveTrajectoryIndex] = useState(0);
   const [isTrajectoryAutoShuffleEnabled, setIsTrajectoryAutoShuffleEnabled] = useState(true);
+  const testimonials: TestimonialSlide[] = [
+    {
+      id: 'dopharma-1',
+      company: 'Dopharma',
+      quote:
+        "Onelink truly helped us to better understand and apply AI within our organization. They were able to explain complex theories clearly and provided practical examples that directly met our needs. Their expertise and personal approach gave us not only new insights but also concrete steps to integrate AI into our work. Thanks to Onelink, we feel prepared to make the most of AI's potential in the future.",
+      logoSrc: '/Dopharma-logo_hor_rgb_HR-scaled.png',
+      logoAlt: 'Dopharma logo',
+      useCaseHref: '#work'
+    },
+    {
+      id: 'dopharma-2',
+      company: 'Dopharma',
+      quote:
+        "The collaboration with Onelink made AI practical for our teams. Their approach translated strategy into clear actions, helped us prioritize the right use cases, and gave us confidence to move from ideas to implementation.",
+      logoSrc: '/Dopharma-logo_hor_rgb_HR-scaled.png',
+      logoAlt: 'Dopharma logo',
+      useCaseHref: '#work'
+    },
+    {
+      id: 'dopharma-3',
+      company: 'Dopharma',
+      quote:
+        "What stood out was the combination of technical depth and business understanding. Onelink supported us with concrete examples, clear guidance, and a roadmap that we could apply directly in our day-to-day operations.",
+      logoSrc: '/Dopharma-logo_hor_rgb_HR-scaled.png',
+      logoAlt: 'Dopharma logo',
+      useCaseHref: '#work'
+    }
+  ];
+  const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
+  const [testimonialCardHeight, setTestimonialCardHeight] = useState(400);
+
+  useEffect(() => {
+    const { pathname, search, hash } = window.location;
+    const supportsManualRestoration = 'scrollRestoration' in window.history;
+    const previousScrollRestoration = supportsManualRestoration ? window.history.scrollRestoration : 'auto';
+
+    if (supportsManualRestoration) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    if (hash) {
+      window.history.replaceState(null, '', `${pathname}${search}`);
+    }
+
+    const scrollToHeroTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    };
+
+    scrollToHeroTop();
+    window.requestAnimationFrame(scrollToHeroTop);
+
+    return () => {
+      if (supportsManualRestoration) {
+        window.history.scrollRestoration = previousScrollRestoration;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const workItems = Array.from(document.querySelectorAll<HTMLElement>('[data-work-item]'));
@@ -78,6 +166,35 @@ export default function HomePage() {
     );
 
     workItems.forEach((item) => observer.observe(item));
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.section-reveal'));
+
+    if (!sections.length) {
+      return;
+    }
+
+    if (typeof IntersectionObserver === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      sections.forEach((section) => section.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-visible', entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '-8% 0px -8% 0px'
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
   }, []);
@@ -163,14 +280,46 @@ export default function HomePage() {
     return () => window.clearInterval(intervalId);
   }, [isTrajectoryAutoShuffleEnabled, trajectorySteps.length]);
 
-  const activeTrajectoryStep = trajectorySteps[activeTrajectoryIndex];
+  useEffect(() => {
+    const measureCards = () => {
+      if (!testimonialMeasureRef.current) {
+        return;
+      }
 
-  const goToPreviousTrajectoryStep = () => {
-    setActiveTrajectoryIndex((prev) => (prev - 1 + trajectorySteps.length) % trajectorySteps.length);
+      const measuredCards = Array.from(
+        testimonialMeasureRef.current.querySelectorAll<HTMLElement>('.testimonial--measure-item')
+      );
+
+      if (!measuredCards.length) {
+        return;
+      }
+
+      const maxHeight = Math.max(...measuredCards.map((card) => card.getBoundingClientRect().height));
+      if (Number.isFinite(maxHeight) && maxHeight > 0) {
+        setTestimonialCardHeight(Math.ceil(maxHeight) + 48);
+      }
+    };
+
+    const rafId = window.requestAnimationFrame(measureCards);
+    const timeoutId = window.setTimeout(measureCards, 300);
+    window.addEventListener('resize', measureCards);
+    if ('fonts' in document) {
+      document.fonts.ready.then(measureCards).catch(() => undefined);
+    }
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.clearTimeout(timeoutId);
+      window.removeEventListener('resize', measureCards);
+    };
+  }, []);
+
+  const activeTestimonial = testimonials[activeTestimonialIndex];
+  const goToPreviousTestimonial = () => {
+    setActiveTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
-
-  const goToNextTrajectoryStep = () => {
-    setActiveTrajectoryIndex((prev) => (prev + 1) % trajectorySteps.length);
+  const goToNextTestimonial = () => {
+    setActiveTestimonialIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   return (
@@ -185,10 +334,10 @@ export default function HomePage() {
             We build a <strong>working AI system</strong> where governance, culture, and technology come together. Start with our <strong>free AI Readiness Scan</strong> and discover where the biggest opportunities lie.
           </p>
           <div className="hero__buttons">
-            <Link href="#contact" className="btn btn--secondary btn--hero-secondary font-satoshi">
+            <Link href="#contact" className="btn btn--hero-action btn--transparent-box font-satoshi">
               Free AI Readiness Scan
             </Link>
-            <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--hero-primary font-satoshi">
+            <Link href="https://cal.com/justin-hansen/30min" target="_blank" rel="noopener noreferrer" className="btn btn--hero-action btn--transparent-box font-satoshi">
               Schedule a call
             </Link>
           </div>
@@ -201,7 +350,7 @@ export default function HomePage() {
       </section>
 
       {/* What We Do + How We Do It */}
-      <section id="what-we-do" className="what-we-do">
+      <section id="what-we-do" className="what-we-do section-reveal">
         <div className="container">
           <h2 className="what-we-do__title font-satoshi">
            We build your AI system <span style={{ color: 'var(--text-primary)' }}></span>
@@ -267,49 +416,70 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="how-section" id="how">
+      <section className="how-section how-section--aurora section-reveal" id="how">
         <div className="container">
           <h2 className="how-section__title font-satoshi">We are your innovation AI partner</h2>
-          <p className="how-section__subtitle">We work like this:</p>
+          <p className="how-section__subtitle">And this is our approach</p>
           <div className="how-section__layout">
-            <div className="how-section__chapters" aria-label="Trajectory chapters">
-              {trajectorySteps.map((step, index) => (
-                <button
-                  key={step.phase}
-                  type="button"
-                  className={`how-section__chapter ${index === activeTrajectoryIndex ? 'is-active' : ''}`}
-                  onClick={() => {
-                    setActiveTrajectoryIndex(index);
-                    setIsTrajectoryAutoShuffleEnabled(false);
-                  }}
-                >
-                  {step.phase}
-                </button>
-              ))}
+            <div className="how-section__quote-column">
+              <article className="how-section__quote-card">
+                <div className="how-section__quote-top">
+                  <div className="how-section__avatar" aria-hidden="true">
+                    <Image
+                      src="/Ontwerp zonder titel (83).png"
+                      alt=""
+                      width={180}
+                      height={180}
+                      className="how-section__avatar-image"
+                    />
+                  </div>
+                  <div className="how-section__quote-person">
+                    <p className="how-section__quote-name">Justin Hansen</p>
+                    <p className="how-section__quote-function">Operational &amp; Product Lead</p>
+                    <p className="how-section__quote-company">Onelink</p>
+                  </div>
+                </div>
+                <p className="how-section__quote-copy">
+                  &quot;Placeholder quote: we work this way because sustainable AI impact requires clear priorities, practical execution, and close alignment between people, process, and technology.&quot;
+                </p>
+              </article>
             </div>
 
             <article className="how-section__card" aria-live="polite">
-              <p className="how-section__phase">{activeTrajectoryStep.phase}</p>
-              <p className="how-section__goal">{activeTrajectoryStep.goal}</p>
-              <p className="how-section__output">{activeTrajectoryStep.output}</p>
-              <p className="how-section__placeholder">{activeTrajectoryStep.placeholder}</p>
-              <div className="how-section__controls">
-                <button
-                  type="button"
-                  className="how-section__control"
-                  onClick={goToPreviousTrajectoryStep}
-                  aria-label="Previous chapter"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  className="how-section__control"
-                  onClick={goToNextTrajectoryStep}
-                  aria-label="Next chapter"
-                >
-                  →
-                </button>
+              <div className="how-section__steps" aria-label="Trajectory chapters">
+                {trajectorySteps.map((step, index) => {
+                  const [tabNumber, ...tabLabelParts] = step.phase.split('. ');
+                  const tabLabel = tabLabelParts.join('. ');
+
+                  return (
+                  <button
+                    key={step.phase}
+                    type="button"
+                    aria-pressed={index === activeTrajectoryIndex}
+                    className={`how-section__step ${index === activeTrajectoryIndex ? 'is-active' : ''}`}
+                    onMouseEnter={() => {
+                      setActiveTrajectoryIndex(index);
+                      setIsTrajectoryAutoShuffleEnabled(false);
+                    }}
+                    onFocus={() => {
+                      setActiveTrajectoryIndex(index);
+                      setIsTrajectoryAutoShuffleEnabled(false);
+                    }}
+                    onClick={() => {
+                      setActiveTrajectoryIndex(index);
+                      setIsTrajectoryAutoShuffleEnabled(false);
+                    }}
+                  >
+                    <div className="how-section__step-header">
+                      <span className="how-section__step-number">{tabNumber}.</span>
+                      <span className="how-section__step-label">{tabLabel}</span>
+                    </div>
+                    <div className="how-section__step-content">
+                      <p className="how-section__step-text">{step.text}</p>
+                    </div>
+                  </button>
+                  );
+                })}
               </div>
             </article>
           </div>
@@ -317,41 +487,88 @@ export default function HomePage() {
       </section>
 
       {/* 2. Testimonials Section */}
-      <section id="testimonials" className="testimonials">
+      <section
+        id="testimonials"
+        className="testimonials section-reveal"
+        style={{ ['--testimonial-card-height' as string]: `${testimonialCardHeight}px` }}
+      >
           <div className="container">
-            <div className="testimonial">
-              <div className="testimonial__avatar-box">
-                <Image
-                  src="/testimonial-avatar-susanne.png"
-                  alt="Portrait of Susanne Commandeur"
-                  width={420}
-                  height={420}
-                  className="testimonial__avatar"
-                />
-              </div>
-              <div className="testimonial__content">
-                <p className="testimonial__company-logo" aria-label="Company logo">
-                  Uniek
-                </p>
-                <p className="testimonial__text">
-                  "Onelink truly helped us to better understand and apply AI within our organization. They were able to explain complex theories clearly and provided practical examples that directly met our needs. Their expertise and personal approach gave us not only new insights but also concrete steps to integrate AI into our work. Thanks to Onelink, we feel prepared to make the most of AI&apos;s potential in the future."
-                </p>
-                <div className="testimonial__meta">
-                  <p className="testimonial__name">Susanne Commandeur</p>
-                  <p className="testimonial__function">Director at Uniek</p>
-                  <Link href="#work" className="btn btn--live testimonial__use-case-btn">
-                    Use case
-                  </Link>
+            <h2 className="font-satoshi testimonials__title">What our clients say</h2>
+            <div className="testimonials__carousel" aria-label="Testimonial carousel">
+              <button
+                type="button"
+                className="testimonials__control testimonials__control--prev font-satoshi"
+                onClick={goToPreviousTestimonial}
+                aria-label="Previous testimonial"
+              >
+                <span className="testimonials__glyph testimonials__glyph--prev">↓</span>
+              </button>
+              <div className="testimonial" key={activeTestimonial.id} aria-live="polite">
+                <div className="testimonial__avatar-box">
+                  <Image
+                    src={activeTestimonial.logoSrc}
+                    alt={activeTestimonial.logoAlt}
+                    width={420}
+                    height={420}
+                    className="testimonial__avatar"
+                  />
+                </div>
+                <div className="testimonial__content">
+                  <p className="testimonial__company-logo" aria-label="Company logo">
+                    {activeTestimonial.company}
+                  </p>
+                  <p className="testimonial__text">
+                    "{activeTestimonial.quote}"
+                  </p>
+                  <div className="testimonial__meta">
+                    <Link href={activeTestimonial.useCaseHref} className="btn btn--live testimonial__use-case-btn">
+                      Use case
+                    </Link>
+                  </div>
                 </div>
               </div>
+              <button
+                type="button"
+                className="testimonials__control testimonials__control--next font-satoshi"
+                onClick={goToNextTestimonial}
+                aria-label="Next testimonial"
+              >
+                <span className="testimonials__glyph testimonials__glyph--next">↓</span>
+              </button>
+            </div>
+            <div className="testimonials__measure" ref={testimonialMeasureRef} aria-hidden="true">
+              {testimonials.map((testimonial) => (
+                <div className="testimonial testimonial--measure-item" key={`${testimonial.id}-measure`}>
+                  <div className="testimonial__avatar-box">
+                    <Image
+                      src={testimonial.logoSrc}
+                      alt=""
+                      width={420}
+                      height={420}
+                      className="testimonial__avatar"
+                    />
+                  </div>
+                  <div className="testimonial__content">
+                    <p className="testimonial__company-logo">
+                      {testimonial.company}
+                    </p>
+                    <p className="testimonial__text">
+                      "{testimonial.quote}"
+                    </p>
+                    <div className="testimonial__meta">
+                      <span className="btn btn--live testimonial__use-case-btn">Use case</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
       </section>
 
       {/* 5. Contact CTA Section */}
-      <section id="contact">
+      <section id="contact" className="section-reveal">
         <div className="container">
-            <div className="cta cta--aurora hero--aurora">
+            <div className="cta">
                 <h2 className="font-satoshi">Already get some insights today?</h2>
                 <p>Start with our AI Readiness Scan and get a great fundament</p>
                 <div className="cta__buttons">
@@ -370,7 +587,7 @@ export default function HomePage() {
       <ChallengesSection />
 
       {/* 3. Products Section -> Renamed to Work */}
-      <section id="work">
+      <section id="work" className="section-reveal">
         <div className="container">
           <h2 className="font-satoshi" style={{ color: 'var(--text-primary)' }}>
             Our Work
@@ -501,7 +718,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="contact-panel" id="contact-form">
+      <section className="contact-panel section-reveal" id="contact-form">
         <div className="container">
           <div className="contact-panel__shell">
             <div className="contact-panel__intro">
@@ -524,6 +741,7 @@ export default function HomePage() {
                 <div className="contact-panel__person-meta">
                   <p className="contact-panel__name">Wessel van &apos;t Klooster</p>
                   <p className="contact-panel__role">Co-founder</p>
+                  <p className="contact-panel__company">Onelink</p>
                 </div>
               </div>
 
@@ -569,6 +787,14 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <Link
+        href="#contact-form"
+        className="go-down-button font-satoshi"
+        aria-label="Go down to contact form"
+      >
+        ↓
+      </Link>
 
     </>
   );
