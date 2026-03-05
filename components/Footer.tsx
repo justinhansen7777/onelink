@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -17,7 +16,7 @@ const Footer = () => {
                 style={{ height: '68px', width: 'auto' }}
               />
             </Link>
-            <p className="site-footer__tagline">Asana clarity in minutes</p>
+            <p className="site-footer__tagline">AI That Works</p>
           </div>
 
           <nav className="site-footer__nav" aria-label="Footer navigation">
@@ -26,6 +25,9 @@ const Footer = () => {
               <ul>
                 <li>
                   <Link href="/#about">What We Do</Link>
+                </li>
+                <li>
+                  <Link href="/about">About</Link>
                 </li>
                 <li>
                   <Link href="/solutions">Solutions</Link>
@@ -40,10 +42,19 @@ const Footer = () => {
               <h3>Resources</h3>
               <ul>
                 <li>
-                  <Link href="/portfolio">Video</Link>
+                  <Link href="/#contact-form">Email</Link>
                 </li>
                 <li>
-                  <Link href="/">FAQ</Link>
+                  <a
+                    href="https://www.linkedin.com/company/onelink-ai/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+31631336575">Telephone</a>
                 </li>
               </ul>
             </div>
@@ -52,17 +63,6 @@ const Footer = () => {
 
         <div className="site-footer__bottom">
           <p>Onelink &copy; All rights reserved.</p>
-          <div className="site-footer__legal">
-            <a
-              href="https://www.linkedin.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="site-footer__linkedin"
-            >
-              <FaLinkedinIn aria-hidden="true" />
-            </a>
-          </div>
         </div>
       </div>
     </footer>

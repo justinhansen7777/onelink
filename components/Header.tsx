@@ -94,6 +94,11 @@ const Header = () => {
                 What We Do
               </Link>
             </li>
+            <li>
+              <Link href="/about" className="nav__link" onClick={closeMenu}>
+                About
+              </Link>
+            </li>
             <li
               className="nav__item--dropdown"
               onMouseEnter={() => setOpenDropdown('solutions')}
@@ -117,8 +122,9 @@ const Header = () => {
                 Portfolio
               </Link>
               <ul className={`nav__dropdown ${openDropdown === 'portfolio' ? 'nav__dropdown--open' : ''}`}>
-                <li><Link href="/portfolio" onClick={closeMenu}>Portfolio overview</Link></li>
-                <li><Link href="/#work" onClick={closeMenu}>Our work</Link></li>
+                <li><Link href="/portfolio#oneview" onClick={closeMenu}>Oneview</Link></li>
+                <li><Link href="/portfolio#onesynq" onClick={closeMenu}>Onesynq</Link></li>
+                <li><Link href="/portfolio#onechat" onClick={closeMenu}>Onechat</Link></li>
               </ul>
             </li>
           </ul>

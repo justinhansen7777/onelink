@@ -3,9 +3,39 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import InsightsCtaSection from '@/components/InsightsCtaSection';
 
 export default function PortfolioPage() {
   const [activeWorkItem, setActiveWorkItem] = useState('oneview');
+
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('.section-reveal'));
+
+    if (!sections.length) {
+      return;
+    }
+
+    if (typeof IntersectionObserver === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      sections.forEach((section) => section.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-visible', entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '-8% 0px -8% 0px'
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const workItems = Array.from(document.querySelectorAll<HTMLElement>('[data-work-item]'));
@@ -49,14 +79,14 @@ export default function PortfolioPage() {
             A showcase of platforms, workflows, and AI products we have built to help organizations move faster with confidence.
           </p>
           <div className="hero__buttons">
-            <Link href="/#work" className="btn btn--secondary btn--hero-secondary font-satoshi">
+            <Link href="#oneview" className="btn btn--hero-action btn--transparent-box font-satoshi">
               View our work
             </Link>
             <Link
               href="https://cal.com/justin-hansen/30min"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn--primary btn--hero-primary font-satoshi"
+              className="btn btn--hero-action btn--transparent-box font-satoshi"
             >
               Schedule a call
             </Link>
@@ -64,7 +94,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="portfolio-work-section">
+      <section className="portfolio-work-section section-reveal">
         <div className="container">
           <h2 className="font-satoshi" style={{ color: 'var(--text-primary)' }}>
             Portfolio
@@ -74,6 +104,7 @@ export default function PortfolioPage() {
             <div
               className={`work-item work-item--single-image work-item--oneview-portfolio ${activeWorkItem === 'oneview' ? 'is-active' : ''}`}
               data-work-item="oneview"
+              id="oneview"
             >
               <div className="work-item__image-box">
                 <Image
@@ -115,6 +146,7 @@ export default function PortfolioPage() {
             <div
               className={`work-item work-item--single-image work-item--onesynq-portfolio ${activeWorkItem === 'onesynq' ? 'is-active' : ''}`}
               data-work-item="onesynq"
+              id="onesynq"
             >
               <div className="work-item__image-box">
                 <Image
@@ -153,6 +185,7 @@ export default function PortfolioPage() {
             <div
               className={`work-item work-item--single-image work-item--onechat-portfolio ${activeWorkItem === 'onechat' ? 'is-active' : ''}`}
               data-work-item="onechat"
+              id="onechat"
             >
               <div className="work-item__image-box">
                 <Image
@@ -190,6 +223,8 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
+
+      <InsightsCtaSection useReveal />
     </>
   );
 }

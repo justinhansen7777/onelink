@@ -147,6 +147,7 @@ export function ChallengesSection() {
 
   return (
     <section id="challenges" className="challenges hero--aurora section-reveal">
+      <div className="challenges__aurora-extra" aria-hidden="true" />
       <div className="container">
         <div className="challenges__header">
           <h2 className="font-satoshi">Challenges we can solve</h2>
